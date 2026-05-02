@@ -149,3 +149,8 @@ Clicking each cell triggers sudoku.com's focus handler, which reloads the page o
 
 **Why render to image in Docker instead of interacting?**
 `pyautogui` controls the physical mouse and keyboard — it requires a real desktop session. Inside a headless container there is no desktop to control. The render approach produces a verifiable output image without any display dependency.
+
+
+## Hosting:
+This repo is hosted at: https://github.com/GDGiantDwarf/Sudoku-Solver
+Yolo weights are hosted at: https://huggingface.co/GDGiantDwarf/SudokuGridDetector/
