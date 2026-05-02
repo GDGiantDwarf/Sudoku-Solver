@@ -14,6 +14,6 @@ pytesseract==0.3.13
 Pillow==11.0.0
 # Sudoku solving — constraint-propagation engine
 py-sudoku==1.0.3
-#ultralytics - YOLOv8 for digit recognition 
+#ultralytics - YOLOv8 for digit recognition
+--extra-index-url https://download.pytorch.org/whl/cpu
 ultralytics==8.3.223
- 

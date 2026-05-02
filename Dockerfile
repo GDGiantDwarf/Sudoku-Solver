@@ -1,20 +1,17 @@
 # ── Sudoku Solver — Docker image ──────────────────────────────────────────────
 #
-# Supports benchmark mode only (the solve mode uses pyautogui to control a
-# real desktop browser and must run on the host machine).
+# Solve mode: headless Chrome fetches a live sudoku.com puzzle, the CV pipeline
+# detects + solves it, and the result is rendered onto solved_sudoku.png.
+# Benchmark and YOLO are not available in Docker (ultralytics excluded for size).
 #
 # Build
 #   docker build -t sudoku-solver .
 #
-# Run benchmark on the bundled screenshot (no internet needed)
-#   docker run --rm sudoku-solver
+# Solve a live puzzle and retrieve the output image (PowerShell):
+#   docker run --rm -v "${PWD}:/output" sudoku-solver bash -c "python main.py && cp solved_sudoku.png /output/"
 #
-# Run benchmark against a live sudoku.com puzzle (fetches a real page)
-#   docker run --rm sudoku-solver python main.py --benchmark
-#
-# Run with a ground-truth string to measure accuracy
-#   docker run --rm sudoku-solver python main.py --benchmark \
-#     --ground-truth 058030020402000905007000680290054070500620000003810025109003064865049130070000006
+# Solve a live puzzle (bash / macOS / Linux):
+#   docker run --rm -v "$(pwd):/output" sudoku-solver bash -c "python main.py && cp solved_sudoku.png /output/"
 
 FROM python:3.11-slim
 

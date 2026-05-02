@@ -105,6 +105,29 @@ The container fetches a fresh puzzle from sudoku.com on every run. The full pipe
 headless Chrome → screenshot → Canny → Template Matching → py-sudoku → render_solution.py → solved_sudoku.png
 ```
 
+
+---
+
+## Reproducing the YOLO training
+
+The dataset was collected automatically using `collect_dataset.py`, which opens sudoku.com via Selenium, captures screenshots, and auto-annotates the grid bounding box using the same Canny pipeline as production.
+
+```bash
+# 1. Collect dataset (opens browser, captures ~80 images)
+python collect_dataset.py --n 80 --out dataset
+
+# 2. Train YOLOv8n (50 epochs, CPU or GPU)
+python train.py --data dataset/data.yaml --epochs 50 --model yolov8n.pt
+
+# Weights saved to: runs/detect/sudoku_detector/weights/best.pt
+
+# 3. Visually inspect predictions on training images
+python test.py --weights runs/detect/sudoku_detector/weights/best.pt --images dataset/images/train
+# SPACE = next image, ESC = quit
+```
+
+Pre-trained weights are already included at `runs/detect/sudoku_detector/weights/best.pt` (mAP50: 0.995).
+
 ---
 
 ## Project structure
