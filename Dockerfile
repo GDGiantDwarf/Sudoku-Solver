@@ -45,8 +45,8 @@ RUN wget -q -O /usr/share/keyrings/google-chrome.gpg \
 
 # ── Python dependencies ───────────────────────────────────────────────────────
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements_docker.txt .
+RUN pip install --no-cache-dir -r requirements_docker.txt
 
 # ── Application code ─────────────────────────────────────────────────────────
 COPY . .

@@ -11,7 +11,6 @@ detect_yolo  : learned model — YOLOv8 bbox → axis-aligned crop → square re
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
 
 from patternMatch import order_points, perspective_transform
 
@@ -23,6 +22,7 @@ _yolo_model = None
 def _get_yolo(weights):
     global _yolo_model
     if _yolo_model is None:
+        from ultralytics import YOLO  # lazy import — not needed in Docker mode
         _yolo_model = YOLO(weights)
     return _yolo_model
 
