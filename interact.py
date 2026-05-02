@@ -34,10 +34,6 @@
 #     [2, 8, 7, 4, 1, 9, 6, 3, 5],
 #     [3, 4, 5, 2, 8, 6, 1, 7, 9],
 # ]
-# 
-# start_coord = (450, 280)  # centre pixel de la case (0,0)
-# Dépendances
-# pyautogui, selenium, Chrome + ChromeDriver
 
 
 

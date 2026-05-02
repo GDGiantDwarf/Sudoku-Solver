@@ -55,11 +55,14 @@ def binarize(img):
     if len(img.shape) == 3:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    # strong blur removes UI gradients
+    # Strong blur removes UI gradients and noise
     img = cv2.GaussianBlur(img, (5,5), 0)
 
-    # strict threshold -> only 0 or 255
-    _, th = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY)
+    # Otsu's thresholding automatically finds the optimal cut point from the
+    # image's own histogram -- works regardless of overall brightness or
+    # overlays that darken the page (unlike a fixed threshold of 150 which
+    # would turn a dimmed grid entirely black).
+    _, th = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     return th
 
@@ -227,3 +230,32 @@ def order_points(pts):
     rect[3] = pts[np.argmax(diff)]
 
     return rect
+
+# ---------------------------------------------------------------------------
+# Modular digit reader (used by benchmark for grid-detector combinations)
+# ---------------------------------------------------------------------------
+
+def read_digits(warped_gray):
+    """
+    Run template-matching digit recognition on a pre-detected warped grid.
+
+    Args:
+        warped_gray -- grayscale square grid image from gridDetection.py
+
+    Returns:
+        board -- 9x9 list of ints (0 = empty)
+    """
+    warped  = binarize(warped_gray)
+    size    = warped.shape[0]
+    cell    = size // 9
+    board   = [[0] * 9 for _ in range(9)]
+
+    for r in range(9):
+        for c in range(9):
+            y1 = r * cell + CELL_MARGIN
+            y2 = (r + 1) * cell - CELL_MARGIN
+            x1 = c * cell + CELL_MARGIN
+            x2 = (c + 1) * cell - CELL_MARGIN
+            board[r][c] = recognize_digit(warped[y1:y2, x1:x2])
+
+    return board
