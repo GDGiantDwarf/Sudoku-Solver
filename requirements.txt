@@ -6,12 +6,14 @@ opencv-python==4.11.0.86
 numpy==2.1.3
 # Input automation (keyboard/mouse entry)
 pyautogui==0.9.54
-# OCR approach (second digit-recognition method)
-# NOTE: pytesseract is a Python wrapper — Tesseract itself must be installed
+
+# NOTE: pytesseract is a Python wrapper — Tesseract itself must also be installed
 # separately on the system (see README for instructions).
 pytesseract==0.3.13
 # Required by pytesseract for image handling
 Pillow==11.0.0
 # Sudoku solving — constraint-propagation engine
 py-sudoku==1.0.3
+#ultralytics - YOLOv8 for digit recognition (first method)
+ultralytics==8.4.46
  
