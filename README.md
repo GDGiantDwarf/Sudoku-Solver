@@ -10,7 +10,7 @@ A Sudoku solver driven entirely by **computer vision**: the program takes a scre
 |------|-------------|------|
 | 1 — Screenshot | Selenium opens sudoku.com, dismisses cookie/tutorial popups, takes a full-page screenshot | `capture.py` |
 | 2 — Grid detection | Canny edge detection → largest external contour → 4-corner approximation → perspective warp to square top-down view | `patternMatch.py`, `ocrProcessing.py` |
-| 3 — Digit recognition | **Approach A**: template matching (OpenCV `matchTemplate`) against real templates extracted from sudoku.com. **Approach B**: EasyOCR neural model on each cell crop | `patternMatch.py`, `ocrProcessing.py` |
+| 3 — Digit recognition | **Approach A**: template matching (OpenCV `matchTemplate`) against real templates extracted from sudoku.com. **Approach B**: Tesseract neural model on each cell crop | `patternMatch.py`, `ocrProcessing.py` |
 | 4 — Solving | `py-sudoku` constraint-propagation engine | `solver.py` |
 | 5 — Interaction | Single pyautogui click on cell (0,0) for grid focus, then arrow keys + digit keys to fill every empty cell — no DOM interaction | `interact.py` |
 
@@ -67,7 +67,7 @@ chromedriver --version   # must match your Chrome version
 # Solve the current puzzle on sudoku.com (uses Template Matching — best method per benchmark)
 python main.py
 
-# Run the benchmark instead of solving (compare Template Matching vs EasyOCR)
+# Run the benchmark instead of solving (compare Template Matching vs Tesseract)
 python main.py --benchmark
 
 # Benchmark with a known ground-truth string for accuracy measurement
@@ -80,7 +80,7 @@ python main.py --benchmark --ground-truth 05803002040200090500700068029005407050
 
 ## Benchmarking both approaches
 
-The benchmark runs **Template Matching** and **EasyOCR** on the same screenshot under identical conditions and reports:
+The benchmark runs **Template Matching** and **Tesseract** on the same screenshot under identical conditions and reports:
 
 - Processing time (seconds)
 - Number of cells correctly detected as filled
@@ -122,7 +122,7 @@ Sudoku-Solver/
 ├── main.py              # Entry point — full pipeline with CLI flags
 ├── capture.py           # Selenium: open browser, dismiss popups, screenshot
 ├── patternMatch.py      # Approach A: OpenCV template matching for digit recognition
-├── ocrProcessing.py     # Approach B: EasyOCR for digit recognition
+├── ocrProcessing.py     # Approach B: Tesseract for digit recognition
 ├── benchmark.py         # Timed, quantified comparison of both approaches
 ├── solver.py            # Pure-Python backtracking solver
 ├── interact.py          # pyautogui: click + arrow keys + digit entry
